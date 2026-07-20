@@ -1,7 +1,7 @@
 #include "../include/Scrambler.h"
 #include <random>
 
-class Move
+struct Move
 {
 public:
     char face;
