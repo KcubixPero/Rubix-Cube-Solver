@@ -19,7 +19,6 @@ The goal of this project is not only to simulate a Rubik's Cube but also to prov
 
 ### Solver
 
-* Layer-by-Layer (LBL) Solver
 * CFOP Solver *(Planned)*
 * Kociemba Two-Phase Solver *(Planned)*
 * Solution generation from any valid cube state
@@ -49,7 +48,7 @@ The goal of this project is not only to simulate a Rubik's Cube but also to prov
 ### Frontend
 
 * React
-* Three.js
+* Node.js
 * Tailwind CSS
 
 ### Tools
@@ -113,11 +112,9 @@ BLUE   WHITE   GREEN   YELLOW
 * [ ] Face rotations
 * [ ] Cube printing
 * [ ] Scramble generator
-* [ ] State validation
 
 ### Phase 2 — Solver
 
-* [ ] Layer-by-Layer Solver
 * [ ] CFOP Solver
 * [ ] Kociemba Solver
 
