@@ -108,10 +108,10 @@ BLUE   WHITE   GREEN   YELLOW
 
 ### Phase 1 — Cube Engine
 
-* [ ] Cube representation
-* [ ] Face rotations
-* [ ] Cube printing
-* [ ] Scramble generator
+* [✅] Cube representation
+* [✅] Face rotations
+* [✅] Cube printing
+* [✅] Scramble generator
 
 ### Phase 2 — Solver
 
