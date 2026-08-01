@@ -1,5 +1,8 @@
-#include "../include/Scrambler.h"
+#include "Scrambler.h"
+#include "RubixCube.h"
+
 #include <random>
+#include <ctime>
 
 struct Move
 {

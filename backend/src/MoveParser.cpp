@@ -2,6 +2,8 @@
 #include "RubixCube.h"
 
 #include <sstream>
+#include <vector>
+#include <string>
 
 using namespace std;
 

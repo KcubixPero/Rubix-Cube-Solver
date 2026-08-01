@@ -1,4 +1,7 @@
-#include "../include/RubixCube.h"
+#include "RubixCube.h"
+#include "CubeState.h"
+#include "Edge.h"
+#include "Corner.h"
 
 RubixCube::RubixCube(const vector3d &sides)
 {
@@ -160,4 +163,310 @@ void RubixCube::print()
 
         cout << "-------------\n";
     }
+}
+
+int faceRank(Color face)
+{
+    switch (face)
+    {
+    case RED:
+    case ORANGE:
+        return 3;
+
+    case WHITE:
+    case YELLOW:
+        return 2;
+
+    case BLUE:
+    case GREEN:
+        return 1;
+    }
+
+    return -1;
+}
+
+int colorRank(Color color)
+{
+    switch (color)
+    {
+    case RED:
+    case ORANGE:
+        return 3;
+
+    case WHITE:
+    case YELLOW:
+        return 2;
+
+    case BLUE:
+    case GREEN:
+        return 1;
+    }
+
+    return -1;
+}
+
+bool edgeOrientation(Color color1, Color color2, Color face1, Color face2)
+{
+    if (colorRank(color1) > colorRank(color2))
+    {
+        return faceRank(face1) < faceRank(face2);
+    }
+
+    return faceRank(face2) < faceRank(face1);
+}
+
+int cornerOrientation(Color sticker1, Color sticker2, Color sticker3, Color face1, Color face2, Color face3)
+{
+    if (sticker1 == RED || sticker1 == ORANGE)
+    {
+        if (face1 == RED || face1 == ORANGE)
+            return 0;
+
+        if (face1 == WHITE || face1 == YELLOW)
+            return 1;
+
+        return 2;
+    }
+
+    if (sticker2 == RED || sticker2 == ORANGE)
+    {
+        if (face2 == RED || face2 == ORANGE)
+            return 0;
+
+        if (face2 == WHITE || face2 == YELLOW)
+            return 1;
+
+        return 2;
+    }
+
+    if (face3 == RED || face3 == ORANGE)
+        return 0;
+
+    if (face3 == WHITE || face3 == YELLOW)
+        return 1;
+
+    return 2;
+}
+
+CubeState RubixCube::toCubeState() const
+{
+    CubeState state;
+
+    EdgeCubie edges[12];
+    CornerCubie corners[8];
+
+    // ---------- EDGES ----------
+
+    Color up, down, front, back, left, right;
+
+
+    // UF
+    up = static_cast<Color>(cube[RED][2][1]);
+    front = static_cast<Color>(cube[WHITE][0][1]);
+    edges[UF].id = identifyEdge(up, front);
+    edges[UF].flipped = edgeOrientation(up, front, RED, WHITE);
+
+    // UR
+    up = static_cast<Color>(cube[RED][1][2]);
+    right = static_cast<Color>(cube[GREEN][0][1]);
+    edges[UR].id = identifyEdge(up, right);
+    edges[UR].flipped = edgeOrientation(up, right, RED, GREEN);
+
+    // UB
+    up = static_cast<Color>(cube[RED][0][1]);
+    back = static_cast<Color>(cube[YELLOW][0][1]);
+    edges[UB].id = identifyEdge(up, back);
+    edges[UB].flipped = edgeOrientation(up, back, RED, YELLOW);
+
+    // UL
+    up = static_cast<Color>(cube[RED][1][0]);
+    left = static_cast<Color>(cube[BLUE][0][1]);
+    edges[UL].id = identifyEdge(up, left);
+    edges[UL].flipped = edgeOrientation(up, left, RED, BLUE);
+
+    // FR
+    front = static_cast<Color>(cube[WHITE][1][2]);
+    right = static_cast<Color>(cube[GREEN][1][0]);
+    edges[FR].id = identifyEdge(front, right);
+    edges[FR].flipped = edgeOrientation(front, right, WHITE, GREEN);
+
+    // BR
+    back = static_cast<Color>(cube[YELLOW][1][2]);
+    right = static_cast<Color>(cube[GREEN][1][2]);
+    edges[BR].id = identifyEdge(back, right);
+    edges[BR].flipped = edgeOrientation(back, right, YELLOW, GREEN);
+
+    // BL
+    back = static_cast<Color>(cube[YELLOW][1][0]);
+    left = static_cast<Color>(cube[BLUE][1][2]);
+    edges[BL].id = identifyEdge(back, left);
+    edges[BL].flipped = edgeOrientation(back, left, YELLOW, BLUE);
+
+    // FL
+    front = static_cast<Color>(cube[WHITE][1][0]);
+    left = static_cast<Color>(cube[BLUE][1][0]);
+    edges[FL].id = identifyEdge(front, left);
+    edges[FL].flipped = edgeOrientation(front, left, WHITE, BLUE);
+
+    // DF
+    down = static_cast<Color>(cube[ORANGE][0][1]);
+    front = static_cast<Color>(cube[WHITE][2][1]);
+    edges[DF].id = identifyEdge(down, front);
+    edges[DF].flipped = edgeOrientation(down, front, ORANGE, WHITE);
+
+    // DR
+    down = static_cast<Color>(cube[ORANGE][1][2]);
+    right = static_cast<Color>(cube[GREEN][2][1]);
+    edges[DR].id = identifyEdge(down, right);
+    edges[DR].flipped = edgeOrientation(down, right, ORANGE, GREEN);
+
+    // DB
+    down = static_cast<Color>(cube[ORANGE][2][1]);
+    back = static_cast<Color>(cube[YELLOW][2][1]);
+    edges[DB].id = identifyEdge(down, back);
+    edges[DB].flipped = edgeOrientation(down, back, ORANGE, YELLOW);
+
+    // DL
+    down = static_cast<Color>(cube[ORANGE][1][0]);
+    left = static_cast<Color>(cube[BLUE][2][1]);
+    edges[DL].id = identifyEdge(down, left);
+    edges[DL].flipped = edgeOrientation(down, left, ORANGE, BLUE);
+
+    // ---------- CORNERS ----------
+
+        // ---------- CORNERS ----------
+
+    // UFR
+    up = static_cast<Color>(cube[RED][2][2]);
+    front = static_cast<Color>(cube[WHITE][0][2]);
+    right = static_cast<Color>(cube[GREEN][0][0]);
+
+    corners[UFR].id = identifyCorner(up, front, right);
+    corners[UFR].orientation = cornerOrientation(
+        up,
+        front,
+        right,
+        RED,
+        WHITE,
+        GREEN);
+
+    // URB
+    up = static_cast<Color>(cube[RED][0][2]);
+    right = static_cast<Color>(cube[GREEN][0][2]);
+    back = static_cast<Color>(cube[YELLOW][0][0]);
+
+    corners[URB].id = identifyCorner(up, right, back);
+    corners[URB].orientation = cornerOrientation(
+        up,
+        right,
+        back,
+        RED,
+        GREEN,
+        YELLOW);
+
+    // UBL
+    up = static_cast<Color>(cube[RED][0][0]);
+    back = static_cast<Color>(cube[YELLOW][0][2]);
+    left = static_cast<Color>(cube[BLUE][0][0]);
+
+    corners[UBL].id = identifyCorner(up, back, left);
+    corners[UBL].orientation = cornerOrientation(
+        up,
+        back,
+        left,
+        RED,
+        YELLOW,
+        BLUE);
+
+    // ULF
+    up = static_cast<Color>(cube[RED][2][0]);
+    left = static_cast<Color>(cube[BLUE][0][2]);
+    front = static_cast<Color>(cube[WHITE][0][0]);
+
+    corners[ULF].id = identifyCorner(up, left, front);
+    corners[ULF].orientation = cornerOrientation(
+        up,
+        left,
+        front,
+        RED,
+        BLUE,
+        WHITE);
+
+    // DFR
+    down = static_cast<Color>(cube[ORANGE][0][2]);
+    front = static_cast<Color>(cube[WHITE][2][2]);
+    right = static_cast<Color>(cube[GREEN][2][0]);
+
+    corners[DFR].id = identifyCorner(down, front, right);
+    corners[DFR].orientation = cornerOrientation(
+        down,
+        front,
+        right,
+        ORANGE,
+        WHITE,
+        GREEN);
+
+    // DRB
+    down = static_cast<Color>(cube[ORANGE][2][2]);
+    right = static_cast<Color>(cube[GREEN][2][2]);
+    back = static_cast<Color>(cube[YELLOW][2][0]);
+
+    corners[DRB].id = identifyCorner(down, right, back);
+    corners[DRB].orientation = cornerOrientation(
+        down,
+        right,
+        back,
+        ORANGE,
+        GREEN,
+        YELLOW);
+
+    // DBL
+    down = static_cast<Color>(cube[ORANGE][2][0]);
+    back = static_cast<Color>(cube[YELLOW][2][2]);
+    left = static_cast<Color>(cube[BLUE][2][0]);
+
+    corners[DBL].id = identifyCorner(down, back, left);
+    corners[DBL].orientation = cornerOrientation(
+        down,
+        back,
+        left,
+        ORANGE,
+        YELLOW,
+        BLUE);
+
+    // DLF
+    down = static_cast<Color>(cube[ORANGE][0][0]);
+    left = static_cast<Color>(cube[BLUE][2][2]);
+    front = static_cast<Color>(cube[WHITE][2][0]);
+
+    corners[DLF].id = identifyCorner(down, left, front);
+    corners[DLF].orientation = cornerOrientation(
+        down,
+        left,
+        front,
+        ORANGE,
+        BLUE,
+        WHITE);
+
+    cout << "\n----- Edges -----\n";
+
+for (int i = 0; i < 12; i++)
+{
+    cout << i
+         << " : ID = " << edges[i].id
+         << "  Flip = " << edges[i].flipped
+         << '\n';
+}
+
+cout << "\n----- Corners -----\n";
+
+for (int i = 0; i < 8; i++)
+{
+    cout << i
+         << " : ID = " << corners[i].id
+         << "  Ori = " << corners[i].orientation
+         << '\n';
+}
+
+    return state;
 }

@@ -1,0 +1,5 @@
+#include "Solver.h"
+#include "RubixCube.h"
+#include "CubeState.h"
+#include "Edge.h"
+#include "Corner.h"

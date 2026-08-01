@@ -1,0 +1,3 @@
+C:/Users/Asus/Desktop/RubixCubeSolver/backend/build/CMakeFiles/RubixCubeSolver.dir
+C:/Users/Asus/Desktop/RubixCubeSolver/backend/build/CMakeFiles/edit_cache.dir
+C:/Users/Asus/Desktop/RubixCubeSolver/backend/build/CMakeFiles/rebuild_cache.dir

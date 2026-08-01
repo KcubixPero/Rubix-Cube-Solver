@@ -1,11 +1,32 @@
-import { useState } from "react";
 import Cubie from "./Cubie";
 import { createSolvedCube } from "./cubeState";
 import { SPACING } from "./constants";
+import { useEffect, useState } from "react";
+import { rotateR } from "./moves";
 
 export default function Cube() {
 
     const [cube, setCube] = useState(createSolvedCube());
+
+    useEffect(() => {
+
+        function handleKeyDown(event) {
+
+            if (event.key === "r" || event.key === "R") {
+
+                setCube(previousCube => rotateR(previousCube));
+
+            }
+
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+
+    }, []);
 
     return (
 

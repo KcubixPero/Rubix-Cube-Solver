@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "CubeState.h"
 
 using namespace std;
 
@@ -12,15 +13,6 @@ using vector3d = vector<vector<vector<int>>>;
 class RubixCube
 {
 public:
-    enum Faces
-    {
-        WHITE = 0,
-        RED = 1,
-        BLUE = 2,
-        GREEN = 3,
-        ORANGE = 4,
-        YELLOW = 5
-    };
 
     char faceChar[6]{
         'W',
@@ -55,6 +47,8 @@ public:
     void B_();
 
     void print();
+
+    CubeState toCubeState() const;
 };
 
 #endif
