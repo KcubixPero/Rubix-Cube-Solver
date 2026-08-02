@@ -1,0 +1,50 @@
+[
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\Corner.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\Corner.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/Corner.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/Corner.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\CubeState.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\CubeState.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/CubeState.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/CubeState.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\Edge.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\Edge.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/Edge.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/Edge.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\MoveParser.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\MoveParser.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/MoveParser.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/MoveParser.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\RubixCube.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\RubixCube.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/RubixCube.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/RubixCube.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\Scrambler.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\Scrambler.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/Scrambler.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/Scrambler.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\Solver.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\Solver.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/Solver.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/Solver.cpp.obj"
+},
+{
+  "directory": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/out/build/GCC 16.1.0 x86_64-w64-mingw32 (ucrt64)",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles\\RubixCubeSolver.dir\\includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\RubixCubeSolver.dir\\src\\main.cpp.obj -c C:\\Users\\Asus\\Desktop\\RubixCubeSolver\\backend\\src\\main.cpp",
+  "file": "C:/Users/Asus/Desktop/RubixCubeSolver/backend/src/main.cpp",
+  "output": "CMakeFiles/RubixCubeSolver.dir/src/main.cpp.obj"
+}
+]
