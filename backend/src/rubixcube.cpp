@@ -60,7 +60,9 @@ void RubixCube::R()
 
 void RubixCube::R_()
 {
-    R(); R(); R();
+    R();
+    R();
+    R();
 }
 
 // --- LEFT MOVE (L) ---
@@ -80,7 +82,9 @@ void RubixCube::L()
 
 void RubixCube::L_()
 {
-    L(); L(); L();
+    L();
+    L();
+    L();
 }
 
 // --- UP MOVE (U) ---
@@ -100,7 +104,9 @@ void RubixCube::U()
 
 void RubixCube::U_()
 {
-    U(); U(); U();
+    U();
+    U();
+    U();
 }
 
 // --- DOWN MOVE (D) ---
@@ -120,7 +126,9 @@ void RubixCube::D()
 
 void RubixCube::D_()
 {
-    D(); D(); D();
+    D();
+    D();
+    D();
 }
 
 // --- FRONT MOVE (F) ---
@@ -140,7 +148,9 @@ void RubixCube::F()
 
 void RubixCube::F_()
 {
-    F(); F(); F();
+    F();
+    F();
+    F();
 }
 
 // --- BACK MOVE (B) ---
@@ -160,7 +170,9 @@ void RubixCube::B()
 
 void RubixCube::B_()
 {
-    B(); B(); B();
+    B();
+    B();
+    B();
 }
 
 void RubixCube::print()
@@ -274,7 +286,6 @@ CubeState RubixCube::toCubeState() const
 
     Color up, down, front, back, left, right;
 
-
     // UF
     up = static_cast<Color>(cube[RED][2][1]);
     front = static_cast<Color>(cube[WHITE][0][1]);
@@ -306,21 +317,41 @@ CubeState RubixCube::toCubeState() const
     edges[FR].flipped = edgeOrientation(front, right, WHITE, GREEN);
 
     // BR
-    back = static_cast<Color>(cube[YELLOW][1][2]);
+    back = static_cast<Color>(cube[YELLOW][1][0]);
     right = static_cast<Color>(cube[GREEN][1][2]);
     edges[BR].id = identifyEdge(back, right);
     edges[BR].flipped = edgeOrientation(back, right, YELLOW, GREEN);
 
-    // BL
-    back = static_cast<Color>(cube[YELLOW][1][0]);
-    left = static_cast<Color>(cube[BLUE][1][2]);
-    edges[BL].id = identifyEdge(back, left);
+    // ---------- BL ----------
+    back = static_cast<Color>(cube[YELLOW][1][2]);
+    left = static_cast<Color>(cube[BLUE][1][0]);
+
+    cout << "\nBL variables = "
+         << back << " "
+         << left << '\n';
+
+    EdgeID blID = identifyEdge(back, left);
+
+    cout << "identifyEdge(BL) returned = "
+         << blID << '\n';
+
+    edges[BL].id = blID;
     edges[BL].flipped = edgeOrientation(back, left, YELLOW, BLUE);
 
-    // FL
+    // ---------- FL ----------
     front = static_cast<Color>(cube[WHITE][1][0]);
-    left = static_cast<Color>(cube[BLUE][1][0]);
-    edges[FL].id = identifyEdge(front, left);
+    left = static_cast<Color>(cube[BLUE][1][2]);
+
+    cout << "\nFL variables = "
+         << front << " "
+         << left << '\n';
+
+    EdgeID flID = identifyEdge(front, left);
+
+    cout << "identifyEdge(FL) returned = "
+         << flID << '\n';
+
+    edges[FL].id = flID;
     edges[FL].flipped = edgeOrientation(front, left, WHITE, BLUE);
 
     // DF
@@ -348,7 +379,6 @@ CubeState RubixCube::toCubeState() const
     edges[DL].flipped = edgeOrientation(down, left, ORANGE, BLUE);
 
     // ---------- CORNERS ----------
-
 
     // UFR
     up = static_cast<Color>(cube[RED][2][2]);
@@ -464,23 +494,23 @@ CubeState RubixCube::toCubeState() const
 
     cout << "\n----- Edges -----\n";
 
-for (int i = 0; i < 12; i++)
-{
-    cout << i
-         << " : ID = " << edges[i].id
-         << "  Flip = " << edges[i].flipped
-         << '\n';
-}
+    for (int i = 0; i < 12; i++)
+    {
+        cout << i
+             << " : ID = " << edges[i].id
+             << "  Flip = " << edges[i].flipped
+             << '\n';
+    }
 
-cout << "\n----- Corners -----\n";
+    cout << "\n----- Corners -----\n";
 
-for (int i = 0; i < 8; i++)
-{
-    cout << i
-         << " : ID = " << corners[i].id
-         << "  Ori = " << corners[i].orientation
-         << '\n';
-}
+    for (int i = 0; i < 8; i++)
+    {
+        cout << i
+             << " : ID = " << corners[i].id
+             << "  Ori = " << corners[i].orientation
+             << '\n';
+    }
 
     return state;
 }

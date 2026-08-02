@@ -3,6 +3,7 @@
 #include "MoveParser.h"
 #include "Scrambler.h"
 #include "Solver.h"
+#include "Color.h"
 
 int main()
 {
