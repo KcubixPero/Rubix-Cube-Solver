@@ -1,15 +1,18 @@
 #include <iostream>
-#include <bitset>
+#include <vector>
+#include <string>
 
 #include "RubixCube.h"
-#include "CubeState.h"
-#include "Color.h"
+#include "MoveParser.h"
+#include "Scrambler.h"
+#include "LegacySolver.h"
 
 using namespace std;
 
 int main()
 {
-    // ---------- Create solved cube ----------
+    // ================= CREATE SOLVED CUBE =================
+
     vector3d solvedCube(6, vector2d(3, vector<int>(3)));
 
     for (int face = 0; face < 6; face++)
@@ -25,58 +28,55 @@ int main()
 
     RubixCube cube(solvedCube);
 
-    // ---------- Test sequence ----------
-    cube.R();
-    cube.F();
-
-    cout << "================ STICKER CUBE ================\n";
+    cout << "================ SOLVED CUBE ================\n";
     cube.print();
 
-    CubeState state = cube.toCubeState();
 
-    cout << "\n================ EDGES ================\n";
+    // ================= SCRAMBLE =================
 
-    for (int i = 0; i < 12; i++)
+    string scramble = "R R2 B F";
+
+    cout << "\n================ SCRAMBLE ================\n";
+    cout << scramble << "\n";
+
+    MoveParser::execute(cube, scramble);
+
+    cout << "\n================ OUR SCRAMBLED CUBE ================\n";
+    cube.print();
+
+
+    // ================= SOLVE =================
+
+    cout << "\n================ STARTING LEGACY SOLVER ================\n";
+
+    LegacySolver solver;
+
+    vector<string> solution = solver.solve(cube);
+
+
+    // ================= PRINT SOLUTION =================
+
+    string solutionString;
+
+    for (const string &move : solution)
     {
-        EdgeCubie edge = state.getEdge(i);
+        if (!solutionString.empty())
+            solutionString += " ";
 
-        cout << "Position "
-             << i
-             << " : ID = "
-             << edge.id
-             << "  Flip = "
-             << edge.flipped
-             << '\n';
+        solutionString += move;
     }
 
-    cout << "\n================ CORNERS ================\n";
+    cout << "\n================ SOLUTION ================\n";
+    cout << solutionString << "\n";
 
-    for (int i = 0; i < 8; i++)
-    {
-        CornerCubie corner = state.getCorner(i);
 
-        cout << "Position "
-             << i
-             << " : ID = "
-             << corner.id
-             << "  Orientation = "
-             << corner.orientation
-             << '\n';
-    }
+    // ================= VERIFY =================
 
-    cout << "\n================ PACKED STATE ================\n";
+    cout << "\n================ VERIFYING SOLUTION ================\n";
 
-    cout << "\nEdge State (decimal)\n";
-    cout << state.getEdgeState() << '\n';
+    MoveParser::execute(cube, solutionString);
 
-    cout << "\nEdge State (binary)\n";
-    cout << bitset<64>(state.getEdgeState()) << '\n';
-
-    cout << "\nCorner State (decimal)\n";
-    cout << state.getCornerState() << '\n';
-
-    cout << "\nCorner State (binary)\n";
-    cout << bitset<64>(state.getCornerState()) << '\n';
+    cube.print();
 
     return 0;
 }
