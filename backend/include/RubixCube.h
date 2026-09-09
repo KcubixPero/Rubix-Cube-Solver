@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include "CubeState.h"
 
 using namespace std;
 
@@ -47,8 +46,6 @@ public:
     void B_();
 
     void print();
-
-    CubeState toCubeState() const;
 };
 
 #endif
