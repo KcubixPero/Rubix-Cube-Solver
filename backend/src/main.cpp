@@ -34,7 +34,7 @@ int main()
 
     // ================= SCRAMBLE =================
 
-    string scramble = "R R2 B F";
+    string scramble = "R U F D B R";
 
     cout << "\n================ SCRAMBLE ================\n";
     cout << scramble << "\n";
