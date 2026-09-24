@@ -1,0 +1,19 @@
+Start testing: Sep 24 12:59 India Standard Time
+----------------------------------------------------------
+1/1 Testing: bfs_solver_tests
+1/1 Test: bfs_solver_tests
+Command: "C:/Users/Asus/Desktop/RubixCubeSolver/build/bfs_solver_tests.exe"
+Directory: C:/Users/Asus/Desktop/RubixCubeSolver/build
+"bfs_solver_tests" start time: Sep 24 12:59 India Standard Time
+Output:
+----------------------------------------------------------
+BFS solver tests passed.
+<end of output>
+Test time =   0.25 sec
+----------------------------------------------------------
+Test Passed.
+"bfs_solver_tests" end time: Sep 24 12:59 India Standard Time
+"bfs_solver_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Sep 24 12:59 India Standard Time

@@ -4,14 +4,14 @@
 #include <random>
 #include <ctime>
 
-struct Move
+struct ScrambleMove
 {
 public:
     char face;
     string suffix;
 };
 
-const vector<Move> moves = {
+const vector<ScrambleMove> moves = {
         {'R', ""},
         {'R', "'"},
         {'R', "2"},
@@ -41,16 +41,16 @@ int randomMove(int a, int b)
     return distrib(gen);
 }
 
-string Scrambler::generateScramble()
+string Scrambler::generateScramble(int length)
 {
-    int random_num = randomMove(20, 25);
+    int random_num = length > 0 ? length : randomMove(20, 25);
 
     string scramble = "";
 
     int moves_size = moves.size();
 
-    Move prev = {'\0', ""};
-    Move curr;
+    ScrambleMove prev = {'\0', ""};
+    ScrambleMove curr;
 
     while (random_num--)
     {

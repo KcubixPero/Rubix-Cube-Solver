@@ -10,7 +10,8 @@ using namespace std;
 
 class Scrambler{
 public:
-    static string generateScramble();
+    // length <= 0 keeps the original random 20-25 turn behaviour.
+    static string generateScramble(int length = 0);
 };
 
 #endif

@@ -1,0 +1,18 @@
+# ninja log v7
+112	1118	8119372776630341	CMakeFiles/rubixcube_core.dir/backend/src/CrossSolver.cpp.obj	150433d05d4671ab
+118	1127	8119372776700109	CMakeFiles/rubixcube_core.dir/backend/src/F2LSolver.cpp.obj	3649020bfc09fe7c
+107	1129	8119372776580472	CMakeFiles/rubixcube_core.dir/backend/src/PhaseSolver.cpp.obj	bf468819185eb869
+134	1132	8119372776861869	CMakeFiles/rubixcube_core.dir/backend/src/PLLSolver.cpp.obj	cebf5ca9eb6ca018
+129	1133	8119372776807402	CMakeFiles/rubixcube_core.dir/backend/src/OLLSolver.cpp.obj	d501dfd1524a76a6
+72	1165	8119372776236238	CMakeFiles/rubixcube_core.dir/backend/src/MoveParser.cpp.obj	3245018cd67f4635
+54	1220	8119372776075320	CMakeFiles/rubixcube_core.dir/backend/src/RubixCube.cpp.obj	abd83e60223e51f5
+65	488	8119384591889213	CMakeFiles/rubix_cube_solver.dir/backend/src/main.cpp.obj	424cb58922985668
+5	391	8119375172057786	CMakeFiles/rubixcube_core.dir/backend/src/Scrambler.cpp.obj	b51be6820afa43f5
+35	595	8119374044139363	CMakeFiles/rubixcube_core.dir/backend/src/BFSSolver.cpp.obj	f5a6d96046f0a9f4
+90	1643	8119372776408166	CMakeFiles/rubixcube_core.dir/backend/src/LegacySolver.cpp.obj	16d03af1aeaa2192
+68	447	8119373391899631	CMakeFiles/bfs_solver_tests.dir/backend/tests/BFSSolverTests.cpp.obj	f3ff89568bef5030
+391	477	8119375175922522	librubixcube_core.a	842f25a203cd33
+482	589	8119375176832831	bfs_solver_tests.exe	bc49641f26dd1b84
+489	603	8119384596126930	rubix_cube_solver.exe	30a9743f6dff3f8a
+51	445	8119384703056902	CMakeFiles/rubix_cube_solver.dir/backend/src/main.cpp.obj	424cb58922985668
+445	556	8119384707009773	rubix_cube_solver.exe	30a9743f6dff3f8a

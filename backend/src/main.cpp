@@ -1,82 +1,93 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "RubixCube.h"
+#include "CrossSolver.h"
+#include "F2LSolver.h"
 #include "MoveParser.h"
+#include "OLLSolver.h"
+#include "PLLSolver.h"
+#include "RubixCube.h"
 #include "Scrambler.h"
-#include "LegacySolver.h"
 
 using namespace std;
 
 int main()
 {
-    // ================= CREATE SOLVED CUBE =================
-
+    // 1. Create solved cube
     vector3d solvedCube(6, vector2d(3, vector<int>(3)));
-
-    for (int face = 0; face < 6; face++)
-    {
-        for (int row = 0; row < 3; row++)
-        {
-            for (int col = 0; col < 3; col++)
-            {
+    for (int face = 0; face < 6; ++face)
+        for (int row = 0; row < 3; ++row)
+            for (int col = 0; col < 3; ++col)
                 solvedCube[face][row][col] = face;
-            }
-        }
-    }
 
     RubixCube cube(solvedCube);
 
-    cout << "================ SOLVED CUBE ================\n";
+    cout << "========== INITIAL CUBE ==========\n";
     cube.print();
 
+    // 2. Generate and apply a random scramble through MoveParser
+    string scramble = Scrambler::generateScramble(3);
+    cout << "\n========== SCRAMBLE ==========\n" << scramble << "\n";
 
-    // ================= SCRAMBLE =================
+    vector<string> scrambleMoves = MoveParser::tokenize(scramble);
+    for (const string &move : scrambleMoves)
+        MoveParser::execute(cube, move);
 
-    string scramble = "R U F D B R";
-
-    cout << "\n================ SCRAMBLE ================\n";
-    cout << scramble << "\n";
-
-    MoveParser::execute(cube, scramble);
-
-    cout << "\n================ OUR SCRAMBLED CUBE ================\n";
+    cout << "\n========== SCRAMBLED CUBE ==========\n";
     cube.print();
 
+    // 3. Solve White Cross
+    CrossSolver cross;
+    BFSResult whiteResult = cross.solve(cube);
+    vector<Move> whiteMoves = whiteResult.moves;
+    cout << "\n========== WHITE CROSS ==========\n";
+    for (const Move &move : whiteMoves) cout << move.notation << " ";
+    cout << "\n";
+    for (const Move &move : whiteMoves) MoveParser::execute(cube, move.notation);
 
-    // ================= SOLVE =================
+    // 4. Solve F2L
+    F2LSolver f2l;
+    BFSResult f2lResult = f2l.solve(cube);
+    vector<Move> f2lMoves = f2lResult.moves;
+    cout << "\n========== F2L ==========\n";
+    for (const Move &move : f2lMoves) cout << move.notation << " ";
+    cout << "\n";
+    for (const Move &move : f2lMoves) MoveParser::execute(cube, move.notation);
 
-    cout << "\n================ STARTING LEGACY SOLVER ================\n";
+    // 5. Solve OLL
+    OLLSolver oll;
+    BFSResult ollResult = oll.solve(cube);
+    vector<Move> ollMoves = ollResult.moves;
+    cout << "\n========== OLL ==========\n";
+    for (const Move &move : ollMoves) cout << move.notation << " ";
+    cout << "\n";
+    for (const Move &move : ollMoves) MoveParser::execute(cube, move.notation);
 
-    LegacySolver solver;
+    // 6. Solve PLL
+    PLLSolver pll;
+    BFSResult pllResult = pll.solve(cube);
+    vector<Move> pllMoves = pllResult.moves;
+    cout << "\n========== PLL ==========\n";
+    for (const Move &move : pllMoves) cout << move.notation << " ";
+    cout << "\n";
+    for (const Move &move : pllMoves) MoveParser::execute(cube, move.notation);
 
-    vector<string> solution = solver.solve(cube);
+    // 7. Concatenate the phase solutions
+    vector<Move> finalMoves;
+    finalMoves.insert(finalMoves.end(), whiteMoves.begin(), whiteMoves.end());
+    finalMoves.insert(finalMoves.end(), f2lMoves.begin(), f2lMoves.end());
+    finalMoves.insert(finalMoves.end(), ollMoves.begin(), ollMoves.end());
+    finalMoves.insert(finalMoves.end(), pllMoves.begin(), pllMoves.end());
 
+    cout << "\n========== FINAL SOLUTION ==========\n";
+    for (const Move &move : finalMoves) cout << move.notation << " ";
+    cout << "\n";
 
-    // ================= PRINT SOLUTION =================
-
-    string solutionString;
-
-    for (const string &move : solution)
-    {
-        if (!solutionString.empty())
-            solutionString += " ";
-
-        solutionString += move;
-    }
-
-    cout << "\n================ SOLUTION ================\n";
-    cout << solutionString << "\n";
-
-
-    // ================= VERIFY =================
-
-    cout << "\n================ VERIFYING SOLUTION ================\n";
-
-    MoveParser::execute(cube, solutionString);
-
+    // 8. Print and verify final cube
+    cout << "\n========== FINAL CUBE ==========\n";
     cube.print();
+    cout << "\nCube solved: " << (pll.isSolved(cube) ? "YES" : "NO") << "\n";
 
     return 0;
 }
