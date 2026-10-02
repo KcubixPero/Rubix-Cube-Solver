@@ -1,9 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Cube from "./Components/Cube/Cube";
 import { COLORS } from "./Components/Cube/constants";
-import { applyMove, applyMoves, createSolvedCube, tokenizeMoves } from "./Components/Cube/cubeState";
+import { applyMove, createSolvedCube, tokenizeMoves } from "./Components/Cube/cubeState";
 import "./App.css";
 
 const MOVES = ["R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2"];
@@ -15,7 +15,6 @@ const VIEWS = {
 const STAGES = [
   ["cross", "White cross"], ["f2l", "F2L"], ["oll", "OLL"], ["pll", "PLL"],
 ];
-const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
 function moveCount(value = "") {
   return value.trim() ? value.trim().split(/\s+/).length : 0;
@@ -50,8 +49,37 @@ export default function App() {
   const [status, setStatus] = useState("ready");
   const [error, setError] = useState("");
   const [view, setView] = useState("F");
+  const [animation, setAnimation] = useState(null);
+  const [paused, setPaused] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem("kcubixlab-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
   const controls = useRef(null);
+  const queue = useRef([]);
+  const running = useRef(false);
+  const pausedRef = useRef(false);
+  const completion = useRef(null);
+  const moveId = useRef(0);
   const stages = useMemo(() => solution ? STAGES.map(([key, label]) => ({ key, label, value: solution[key] || "" })) : [], [solution]);
+
+  const finishAnimation = useCallback((id) => { if (completion.current?.id === id) completion.current.resolve(); }, []);
+  const startQueue = useCallback(async () => {
+    if (running.current) return;
+    running.current = true;
+    while (queue.current.length) {
+      while (pausedRef.current) await new Promise((resolve) => window.setTimeout(resolve, 100));
+      const { token, stage } = queue.current.shift();
+      if (stage) setStatus(stage);
+      const id = ++moveId.current;
+      const done = new Promise((resolve) => { completion.current = { id, resolve }; });
+      setAnimation({ token, id });
+      await done;
+      setCube((current) => applyMove(current, token));
+      setAnimation(null);
+      completion.current = null;
+    }
+    running.current = false;
+    setStatus("solved");
+  }, []);
+  const enqueueMoves = (moves, stage) => { queue.current.push(...moves.map((token) => ({ token, stage }))); startQueue(); };
 
   const clearSolution = () => {
     setSolution(null);
@@ -62,10 +90,12 @@ export default function App() {
   const setPuzzle = (sequence) => {
     const parsed = tokenizeMoves(sequence);
     const text = parsed.join(" ");
-    setCube(applyMoves(createSolvedCube(), text));
+    queue.current = [];
+    setCube(createSolvedCube());
     setScramble(text);
     setCustomScramble(text);
     clearSolution();
+    enqueueMoves(parsed);
   };
 
   const onGenerate = () => {
@@ -98,26 +128,19 @@ export default function App() {
       if (full !== concatenated) throw new Error("Backend returned inconsistent stage and full solutions.");
       setSolution({ ...next, full });
 
-      let animated = applyMoves(createSolvedCube(), scramble);
-      setCube(animated);
-      let movesDone = 0;
-      const totalMoves = moveCount(full);
-      for (const [key] of STAGES) {
-        setStatus(key);
-        for (const move of tokenizeMoves(next[key])) {
-          animated = applyMove(animated, move);
-          setCube(animated);
-          movesDone += 1;
-          await delay(90);
-        }
-      }
-      if (movesDone !== totalMoves) throw new Error("Solution animation did not apply every move.");
-      setStatus("solved");
+      queue.current = [];
+      setCube(createSolvedCube());
+      enqueueMoves(tokenizeMoves(scramble));
+      await new Promise((resolve) => { const timer = window.setInterval(() => { if (!running.current && !queue.current.length) { window.clearInterval(timer); resolve(); } }, 50); });
+      for (const [key] of STAGES) enqueueMoves(tokenizeMoves(next[key]), key);
     } catch (e) {
       setStatus("error");
       setError(e.message || "Backend connection failed. Start the C++ solver service and retry.");
     }
   };
+
+  const toggleTheme = () => setTheme((value) => value === "dark" ? "light" : "dark");
+  useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem("kcubixlab-theme", theme); document.title = "KCubixLab — Rubik's Cube Solver"; }, [theme]);
 
   const onView = (face) => {
     setView(face);
@@ -130,6 +153,21 @@ export default function App() {
     }
   };
 
+  const resetCube = () => {
+    queue.current = [];
+    completion.current?.resolve();
+    completion.current = null;
+    pausedRef.current = false;
+    setPaused(false);
+    setAnimation(null);
+    setCube(createSolvedCube());
+    setScramble("");
+    setCustomScramble("");
+    setSolution(null);
+    setError("");
+    setStatus("ready");
+  };
+
   const fullSolution = solution?.full || "";
   const isBusy = status === "solving" || STAGES.some(([key]) => status === key);
   const copySolution = async () => {
@@ -140,9 +178,9 @@ export default function App() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="CubeLab home"><span className="brand-mark">C</span><span>cub<span className="brand-accent">elab</span></span></a>
+        <a className="brand" href="#top" aria-label="KCubixLab home"><span className="brand-mark">K</span><span>KCubix<span className="brand-accent">Lab</span></span></a>
         <div className="topbar-meta"><span className="status-dot" /> CFOP WORKSPACE <span className="topbar-divider">/</span> 3×3×3</div>
-        <span className="version-tag">BETA</span>
+        <button className="theme-toggle" onClick={toggleTheme}>{theme === "dark" ? "Light mode" : "Dark mode"}</button><span className="version-tag">BETA</span>
       </header>
 
       <section className="intro" id="top">
@@ -155,16 +193,17 @@ export default function App() {
           <div className="panel-top"><div><p className="eyebrow">LIVE PUZZLE</p><h2>Cube view</h2></div><span className="view-label">{view} FACE VIEW</span></div>
           <div className="canvas-wrap">
             <Canvas camera={{ position: [6, 4.5, 7], fov: 34 }} dpr={[1, 1.6]}>
-              <color attach="background" args={["#f5f7fa"]} />
+              <color attach="background" args={[theme === "dark" ? "#182329" : "#f5f7fa"]} />
               <ambientLight intensity={1.5} />
               <directionalLight position={[5, 8, 7]} intensity={2.4} />
               <directionalLight position={[-5, 2, -4]} intensity={1.1} />
-              <Cube cubies={cube} />
+              <Cube cubies={cube} animation={animation} paused={paused} onAnimationComplete={finishAnimation} />
               <OrbitControls ref={controls} enablePan={false} minDistance={5} maxDistance={11} enableDamping dampingFactor={0.08} />
             </Canvas>
             <span className="drag-hint"><span>↗</span> DRAG TO ROTATE</span>
           </div>
-          <div className="view-controls"><span>ORIENT VIEW</span><div>{FACES.map((face) => <button key={face} className={view === face ? "selected" : ""} onClick={() => onView(face)} disabled={isBusy} aria-label={`View ${face} face`}>{face}</button>)}</div><button className="reset-view" onClick={() => onView("F")} disabled={isBusy}>Reset</button></div>
+          <div className="view-controls"><span>ORIENT VIEW</span><div>{FACES.map((face) => <button key={face} className={view === face ? "selected" : ""} onClick={() => onView(face)} disabled={isBusy} aria-label={`View ${face} face`}>{face}</button>)}</div><button className="reset-view" onClick={() => onView("F")} disabled={isBusy}>Front view</button></div>
+          <div className="playback-controls"><button onClick={() => { pausedRef.current = !pausedRef.current; setPaused(pausedRef.current); }}>{paused ? "Resume" : "Pause"}</button><button className="cube-reset-button" onClick={resetCube}>Reset cube</button></div>
           <div className="color-key">{Object.entries({ W: COLORS.WHITE, R: COLORS.RED, B: COLORS.BLUE, G: COLORS.GREEN, O: COLORS.ORANGE, Y: COLORS.YELLOW }).map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}</div>
         </div>
 
@@ -192,7 +231,7 @@ export default function App() {
           </section>}
         </aside>
       </section>
-      <footer><span>CubeLab <span className="footer-dot">•</span> 3D cube uses the project’s W / R / B / G / O / Y orientation</span><span>MADE FOR THE NEXT MOVE</span></footer>
+      <footer><span>KCubixLab <span className="footer-dot">•</span> 3D cube uses the project’s W / R / B / G / O / Y orientation</span><span>MADE FOR THE NEXT MOVE</span></footer>
     </main>
   );
 }

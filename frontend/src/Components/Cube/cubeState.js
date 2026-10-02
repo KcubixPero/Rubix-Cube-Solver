@@ -44,6 +44,14 @@ const MOVE = {
   F: [2, 1, -1], B: [2, -1, 1],
 };
 
+export function getMoveAnimation(token) {
+  const [axis, layer, clockwise] = MOVE[token[0]] || [];
+  if (axis === undefined) throw new Error(`Invalid move notation: ${token}`);
+  const turns = token.endsWith("2") ? 2 : 1;
+  const direction = token.endsWith("'") ? -clockwise : clockwise;
+  return { axis, layer, angle: direction * turns * Math.PI / 2 };
+}
+
 export function tokenizeMoves(sequence) {
   const tokens = sequence.trim() ? sequence.trim().split(/\s+/) : [];
   for (const token of tokens) {
