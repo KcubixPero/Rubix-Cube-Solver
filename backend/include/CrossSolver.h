@@ -12,10 +12,9 @@ class CrossSolver
 {
 public:
     static vector<string> solve(const RubixCube& cube);
-
-private:
     static bool isSolved(const RubixCube& cube);
 
+private:
     static int heuristic(const RubixCube& cube);
 
     static string encode(const RubixCube& cube);

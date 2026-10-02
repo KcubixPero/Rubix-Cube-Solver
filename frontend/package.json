@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch src --ext js,jsx,css --exec \"vite\"",
     "build": "vite build",
+    "test:cube": "node --test src/Components/Cube/cubeState.test.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

@@ -15,7 +15,6 @@ public:
 
     static void execute(RubixCube &cube, const string &sequence);
 
-private:
     static void executeMove(RubixCube &cube, const string &move);
 };
 

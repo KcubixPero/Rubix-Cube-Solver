@@ -1,0 +1,25 @@
+// Algorithm notation adapted from Logiqx cubing-algs (GPL-3.0):
+// https://github.com/Logiqx/cubing-algs/tree/master/data
+static constexpr RawAlgorithm kPllAlgorithms[] = {
+    {"Aa", "U x R2 (R U R' D2) (R U' R' D2) R2 x'"},
+    {"Ab", "U2 x R2 (D2 R U R') (D2 R U' R') R2 x'"},
+    {"E", "x' (R U' R' D R U R' D') (R U R' D R U' R' D') x"},
+    {"F", "R' U' F' (R U R' U' R' F R2 U' R' U' R U R' F') F U R"},
+    {"Ga", "R2 u R' U R' U' R u' R2 y' R' U R"},
+    {"Gb", "R' U' R y R2 u R' U R U' R u' R2"},
+    {"Gc", "U2 R2 F2 R U2 R U2 R' F R U R' U' R' F R2"},
+    {"Gd", "U R2 F' R U R U' R' F' R U2 R' U2 R' F2 R2"},
+    {"H", "M2 U' (M2 U2 M2 U2) U M2"},
+    {"Ja", "U' (R' U L' U2 R U' L) (L' R' U2 R L)"},
+    {"Jb", "R U R' F' (R U R' U' R' F R2 U' R' U' R U R' F') F R U' R'"},
+    {"Na", "R U R' U (R U R' F' R U R' U' R' F R2 U' R') U2 R U' R'"},
+    {"Nb", "R' U R U' R' F' U' F R U R' F R' F' R U' R"},
+    {"Ra", "R U R' F' R U2 R' U2 R' F R U R U2 R'"},
+    {"Rb", "U' R' U2 R U2 R' F R U R' U' R' F' R2"},
+    {"T", "(R U R' U' R' F R F') (F R U' R' U' R U R' F')"},
+    {"Ua", "U M2 U (M U2 M' U2) U' M2"},
+    {"Ub", "U M2 U' (M U2 M' U2) U M2"},
+    {"V", "R' U R' d' R' F' R2 U' R' U R' F R F"},
+    {"Y", "(F R U' R' U' R U R' F') (R U R' U' R' F R F')"},
+    {"Z", "(M' U' M2 U' M2 U' M) (M2 U2 M2)"},
+};
