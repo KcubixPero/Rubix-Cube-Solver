@@ -11,12 +11,6 @@ add_library(rubixcube_core
     backend/src/MoveParser.cpp
     backend/src/Scrambler.cpp
     backend/src/LegacySolver.cpp
-    backend/src/BFSSolver.cpp
-    backend/src/PhaseSolver.cpp
-    backend/src/CrossSolver.cpp
-    backend/src/F2LSolver.cpp
-    backend/src/OLLSolver.cpp
-    backend/src/PLLSolver.cpp
 )
 target_include_directories(rubixcube_core PUBLIC backend/include)
 

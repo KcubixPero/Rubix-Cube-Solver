@@ -1,93 +1,164 @@
+#include "RubixCube.h"
+#include "MoveParser.h"
+#include "CrossSolver.h"
+#include "Scrambler.h"
+#include "Color.h"
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include "CrossSolver.h"
-#include "F2LSolver.h"
-#include "MoveParser.h"
-#include "OLLSolver.h"
-#include "PLLSolver.h"
-#include "RubixCube.h"
-#include "Scrambler.h"
 
 using namespace std;
 
 int main()
 {
+    // ============================================================
     // 1. Create solved cube
-    vector3d solvedCube(6, vector2d(3, vector<int>(3)));
-    for (int face = 0; face < 6; ++face)
-        for (int row = 0; row < 3; ++row)
-            for (int col = 0; col < 3; ++col)
-                solvedCube[face][row][col] = face;
+    // ============================================================
 
-    RubixCube cube(solvedCube);
+    vector3d sides(
+        6,
+        vector2d(
+            3,
+            vector<int>(3)
+        )
+    );
 
-    cout << "========== INITIAL CUBE ==========\n";
+    for (int face = 0; face < 6; face++)
+    {
+        for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                sides[face][row][col] = face;
+            }
+        }
+    }
+
+    RubixCube cube(sides);
+
+    cout << "==============================\n";
+    cout << "       A* WHITE CROSS TEST\n";
+    cout << "==============================\n\n";
+
+    // ============================================================
+    // 2. Generate random scramble
+    // ============================================================
+
+    string scramble = Scrambler::generateScramble();
+
+    cout << "Scramble:\n";
+    cout << scramble << "\n\n";
+
+    // ============================================================
+    // 3. Apply scramble
+    // ============================================================
+
+    MoveParser::execute(cube, scramble);
+
+    cout << "Scrambled cube:\n";
     cube.print();
 
-    // 2. Generate and apply a random scramble through MoveParser
-    string scramble = Scrambler::generateScramble(3);
-    cout << "\n========== SCRAMBLE ==========\n" << scramble << "\n";
+    // ============================================================
+    // 4. Solve White Cross using A*
+    // ============================================================
 
-    vector<string> scrambleMoves = MoveParser::tokenize(scramble);
-    for (const string &move : scrambleMoves)
-        MoveParser::execute(cube, move);
+    cout << "\n==============================\n";
+    cout << "       RUNNING A*\n";
+    cout << "==============================\n\n";
 
-    cout << "\n========== SCRAMBLED CUBE ==========\n";
+    vector<string> solution =
+        CrossSolver::solve(cube);
+
+    // ============================================================
+    // 5. Print solution
+    // ============================================================
+
+    cout << "White Cross solution:\n";
+
+    if (solution.empty())
+    {
+        cout << "(No moves needed)\n";
+    }
+    else
+    {
+        for (const string& move : solution)
+        {
+            cout << move << " ";
+        }
+
+        cout << "\n";
+    }
+
+    cout << "\nNumber of moves: "
+         << solution.size()
+         << "\n";
+
+    // ============================================================
+    // 6. Apply White Cross solution
+    // ============================================================
+
+    string solutionString;
+
+    for (const string& move : solution)
+    {
+        solutionString += move + " ";
+    }
+
+    MoveParser::execute(cube, solutionString);
+
+    // ============================================================
+    // 7. Print resulting cube
+    // ============================================================
+
+    cout << "\nCube after White Cross solution:\n";
     cube.print();
 
-    // 3. Solve White Cross
-    CrossSolver cross;
-    BFSResult whiteResult = cross.solve(cube);
-    vector<Move> whiteMoves = whiteResult.moves;
-    cout << "\n========== WHITE CROSS ==========\n";
-    for (const Move &move : whiteMoves) cout << move.notation << " ";
-    cout << "\n";
-    for (const Move &move : whiteMoves) MoveParser::execute(cube, move.notation);
+    // ============================================================
+    // 8. Verify White Cross
+    // ============================================================
 
-    // 4. Solve F2L
-    F2LSolver f2l;
-    BFSResult f2lResult = f2l.solve(cube);
-    vector<Move> f2lMoves = f2lResult.moves;
-    cout << "\n========== F2L ==========\n";
-    for (const Move &move : f2lMoves) cout << move.notation << " ";
-    cout << "\n";
-    for (const Move &move : f2lMoves) MoveParser::execute(cube, move.notation);
+    bool crossSolved = true;
 
-    // 5. Solve OLL
-    OLLSolver oll;
-    BFSResult ollResult = oll.solve(cube);
-    vector<Move> ollMoves = ollResult.moves;
-    cout << "\n========== OLL ==========\n";
-    for (const Move &move : ollMoves) cout << move.notation << " ";
-    cout << "\n";
-    for (const Move &move : ollMoves) MoveParser::execute(cube, move.notation);
+    // White-Red
+    if (cube.cube[WHITE][0][1] != WHITE ||
+        cube.cube[RED][2][1] != RED)
+    {
+        crossSolved = false;
+    }
 
-    // 6. Solve PLL
-    PLLSolver pll;
-    BFSResult pllResult = pll.solve(cube);
-    vector<Move> pllMoves = pllResult.moves;
-    cout << "\n========== PLL ==========\n";
-    for (const Move &move : pllMoves) cout << move.notation << " ";
-    cout << "\n";
-    for (const Move &move : pllMoves) MoveParser::execute(cube, move.notation);
+    // White-Green
+    if (cube.cube[WHITE][1][2] != WHITE ||
+        cube.cube[GREEN][1][0] != GREEN)
+    {
+        crossSolved = false;
+    }
 
-    // 7. Concatenate the phase solutions
-    vector<Move> finalMoves;
-    finalMoves.insert(finalMoves.end(), whiteMoves.begin(), whiteMoves.end());
-    finalMoves.insert(finalMoves.end(), f2lMoves.begin(), f2lMoves.end());
-    finalMoves.insert(finalMoves.end(), ollMoves.begin(), ollMoves.end());
-    finalMoves.insert(finalMoves.end(), pllMoves.begin(), pllMoves.end());
+    // White-Orange
+    if (cube.cube[WHITE][2][1] != WHITE ||
+        cube.cube[ORANGE][0][1] != ORANGE)
+    {
+        crossSolved = false;
+    }
 
-    cout << "\n========== FINAL SOLUTION ==========\n";
-    for (const Move &move : finalMoves) cout << move.notation << " ";
-    cout << "\n";
+    // White-Blue
+    if (cube.cube[WHITE][1][0] != WHITE ||
+        cube.cube[BLUE][1][2] != BLUE)
+    {
+        crossSolved = false;
+    }
 
-    // 8. Print and verify final cube
-    cout << "\n========== FINAL CUBE ==========\n";
-    cube.print();
-    cout << "\nCube solved: " << (pll.isSolved(cube) ? "YES" : "NO") << "\n";
+    cout << "\n==============================\n";
+
+    if (crossSolved)
+    {
+        cout << "WHITE CROSS: SOLVED\n";
+    }
+    else
+    {
+        cout << "WHITE CROSS: FAILED\n";
+    }
+
+    cout << "==============================\n";
 
     return 0;
 }

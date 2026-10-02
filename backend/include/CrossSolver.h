@@ -1,13 +1,28 @@
-#ifndef CROSS_SOLVER_H
-#define CROSS_SOLVER_H
+#ifndef CROSSSOLVER_H
+#define CROSSSOLVER_H
 
-#include "PhaseSolver.h"
+#include "RubixCube.h"
 
-class CrossSolver : public PhaseSolver
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class CrossSolver
 {
 public:
-    using PhaseSolver::PhaseSolver;
-    bool isSolved(const RubixCube &cube) const override;
+    static vector<string> solve(const RubixCube& cube);
+
+private:
+    static bool isSolved(const RubixCube& cube);
+
+    static int heuristic(const RubixCube& cube);
+
+    static string encode(const RubixCube& cube);
+
+    static void applyMove(RubixCube& cube, int move);
+
+    static string moveToString(int move);
 };
 
 #endif

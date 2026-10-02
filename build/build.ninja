@@ -84,6 +84,22 @@ build CMakeFiles/rubixcube_core.dir/backend/src/BFSSolver.cpp.obj: CXX_COMPILER_
   OBJECT_FILE_DIR = CMakeFiles\rubixcube_core.dir\backend\src
   TARGET_SUPPORT_DIR = CMakeFiles\rubixcube_core.dir
 
+build CMakeFiles/rubixcube_core.dir/backend/src/IDAStarSolver.cpp.obj: CXX_COMPILER__rubixcube_core_unscanned_ C$:/Users/Asus/Desktop/RubixCubeSolver/backend/src/IDAStarSolver.cpp || cmake_object_order_depends_target_rubixcube_core
+  DEP_FILE = CMakeFiles\rubixcube_core.dir\backend\src\IDAStarSolver.cpp.obj.d
+  FLAGS = -std=c++17
+  INCLUDES = -IC:/Users/Asus/Desktop/RubixCubeSolver/backend/include
+  OBJECT_DIR = CMakeFiles\rubixcube_core.dir
+  OBJECT_FILE_DIR = CMakeFiles\rubixcube_core.dir\backend\src
+  TARGET_SUPPORT_DIR = CMakeFiles\rubixcube_core.dir
+
+build CMakeFiles/rubixcube_core.dir/backend/src/CrossState.cpp.obj: CXX_COMPILER__rubixcube_core_unscanned_ C$:/Users/Asus/Desktop/RubixCubeSolver/backend/src/CrossState.cpp || cmake_object_order_depends_target_rubixcube_core
+  DEP_FILE = CMakeFiles\rubixcube_core.dir\backend\src\CrossState.cpp.obj.d
+  FLAGS = -std=c++17
+  INCLUDES = -IC:/Users/Asus/Desktop/RubixCubeSolver/backend/include
+  OBJECT_DIR = CMakeFiles\rubixcube_core.dir
+  OBJECT_FILE_DIR = CMakeFiles\rubixcube_core.dir\backend\src
+  TARGET_SUPPORT_DIR = CMakeFiles\rubixcube_core.dir
+
 build CMakeFiles/rubixcube_core.dir/backend/src/PhaseSolver.cpp.obj: CXX_COMPILER__rubixcube_core_unscanned_ C$:/Users/Asus/Desktop/RubixCubeSolver/backend/src/PhaseSolver.cpp || cmake_object_order_depends_target_rubixcube_core
   DEP_FILE = CMakeFiles\rubixcube_core.dir\backend\src\PhaseSolver.cpp.obj.d
   FLAGS = -std=c++17
@@ -132,7 +148,7 @@ build CMakeFiles/rubixcube_core.dir/backend/src/PLLSolver.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the static library librubixcube_core.a
 
-build librubixcube_core.a: CXX_STATIC_LIBRARY_LINKER__rubixcube_core_ CMakeFiles/rubixcube_core.dir/backend/src/RubixCube.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/MoveParser.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/Scrambler.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/LegacySolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/BFSSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/PhaseSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/CrossSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/F2LSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/OLLSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/PLLSolver.cpp.obj
+build librubixcube_core.a: CXX_STATIC_LIBRARY_LINKER__rubixcube_core_ CMakeFiles/rubixcube_core.dir/backend/src/RubixCube.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/MoveParser.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/Scrambler.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/LegacySolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/BFSSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/IDAStarSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/CrossState.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/PhaseSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/CrossSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/F2LSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/OLLSolver.cpp.obj CMakeFiles/rubixcube_core.dir/backend/src/PLLSolver.cpp.obj
   OBJECT_DIR = CMakeFiles\rubixcube_core.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
