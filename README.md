@@ -6,6 +6,28 @@ KCubixLab is a 3D Rubik's Cube solver built around a C++ solving pipeline and a 
 
 The project represents a standard 3×3 cube in code, generates or accepts move scrambles, and solves cube states through a local C++ HTTP API. The browser frontend renders the cube in 3D, supports manual face turns, and animates the returned solution by stage.
 
+## Cube orientation
+
+The solver uses a fixed cube orientation throughout the entire solving pipeline. The cube must be interpreted with **White as the Front face** and **Red as the Top face**.
+
+The face IDs used by the project are:
+
+```text
+              RED (1)
+               TOP
+                │
+                │
+GREEN (3) ── WHITE (0) ── BLUE (2)
+   LEFT         FRONT        RIGHT
+                │
+                │
+             YELLOW (5)
+              BOTTOM
+
+             ORANGE (4)
+                BACK
+```
+
 ## Project image
 
 ![KCubixLab application preview](image.png)
