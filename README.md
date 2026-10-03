@@ -11,11 +11,9 @@ The project represents a standard 3×3 cube in code, generates or accepts move s
 
 ## Project image
 
+![KCubixLab application preview](image.png)
 
-![KCubixLab application preview]\(image.png)
-
-
-*\*KCubixLab cube visualizer and solver interface.\**
+*KCubixLab cube visualizer and solver interface.*
 
 
 ## Features
