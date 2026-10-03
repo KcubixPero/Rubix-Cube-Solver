@@ -1,5 +1,4 @@
-# KCubixLab
-
+# Cube Solver (CFOP)
 
 KCubixLab is a 3D Rubik's Cube solver built around a C++ solving pipeline and a React-based visualizer. It uses an A\* search for the White Cross and a dedicated integration layer, `LegacyStageSupport`, to connect the F2L, OLL, and PLL stage routines to the current cube engine, then presents the solution one stage at a time.
 
