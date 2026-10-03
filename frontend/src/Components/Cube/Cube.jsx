@@ -7,7 +7,12 @@ import { getMoveAnimation } from "./cubeState";
 const DURATION = 420;
 const AXES = ["x", "y", "z"];
 
-export default function Cube({ cubies, animation, paused, onAnimationComplete }) {
+export default function Cube({
+  cubies,
+  animation,
+  paused,
+  onAnimationComplete,
+}) {
   const layer = useRef();
   const progressTime = useRef(0);
   const completed = useRef(false);
@@ -32,9 +37,21 @@ export default function Cube({ cubies, animation, paused, onAnimationComplete })
     }
   });
 
-  const affected = move ? cubies.filter((cubie) => cubie.position[move.axis] === move.layer) : [];
-  const unaffected = move ? cubies.filter((cubie) => cubie.position[move.axis] !== move.layer) : cubies;
-  const renderCubie = (cubie) => <Cubie key={cubie.id} cubie={{ ...cubie, position: cubie.position.map((value) => value * SPACING) }} />;
+  const affected = move
+    ? cubies.filter((cubie) => cubie.position[move.axis] === move.layer)
+    : [];
+  const unaffected = move
+    ? cubies.filter((cubie) => cubie.position[move.axis] !== move.layer)
+    : cubies;
+  const renderCubie = (cubie) => (
+    <Cubie
+      key={cubie.id}
+      cubie={{
+        ...cubie,
+        position: cubie.position.map((value) => value * SPACING),
+      }}
+    />
+  );
 
   return (
     <group>

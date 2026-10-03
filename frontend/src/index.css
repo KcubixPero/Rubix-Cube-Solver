@@ -1,4 +1,15 @@
-html { min-width: 320px; min-height: 100%; background: #f5f7fa; }
-body { min-height: 100vh; }
-#root { min-height: 100vh; }
-::selection { color: #223c2a; background: #d6f2be; }
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: #f5f7fa;
+}
+body {
+  min-height: 100vh;
+}
+#root {
+  min-height: 100vh;
+}
+::selection {
+  color: #223c2a;
+  background: #d6f2be;
+}

@@ -7,16 +7,20 @@
 
 #include <stdexcept>
 
-std::vector<std::string> OLLSolver::solve(RubixCube& cube) {
+std::vector<std::string> OLLSolver::solve(RubixCube &cube)
+{
     if (!F2LSolver::isSolved(cube))
         throw std::invalid_argument("OLL requires Cross and F2L to be solved first.");
     return MoveSimplifier::simplifyAdjacentFaces(LegacyStageSupport::solveOLL(cube));
 }
 
-bool OLLSolver::isSolved(const RubixCube& cube) {
-    if (!F2LSolver::isSolved(cube)) return false;
+bool OLLSolver::isSolved(const RubixCube &cube)
+{
+    if (!F2LSolver::isSolved(cube))
+        return false;
     for (int row = 0; row < 3; ++row)
         for (int col = 0; col < 3; ++col)
-            if (cube.cube[YELLOW][row][col] != YELLOW) return false;
+            if (cube.cube[YELLOW][row][col] != YELLOW)
+                return false;
     return true;
 }

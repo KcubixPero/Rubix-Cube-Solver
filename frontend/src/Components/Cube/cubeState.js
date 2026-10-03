@@ -1,15 +1,23 @@
 import { COLORS } from "./constants.js";
 
 const NORMALS = {
-  left: [-1, 0, 0], right: [1, 0, 0],
-  bottom: [0, -1, 0], top: [0, 1, 0],
-  back: [0, 0, -1], front: [0, 0, 1],
+  left: [-1, 0, 0],
+  right: [1, 0, 0],
+  bottom: [0, -1, 0],
+  top: [0, 1, 0],
+  back: [0, 0, -1],
+  front: [0, 0, 1],
 };
-const NORMAL_KEYS = Object.fromEntries(Object.entries(NORMALS).map(([key, normal]) => [normal.join(","), key]));
+const NORMAL_KEYS = Object.fromEntries(
+  Object.entries(NORMALS).map(([key, normal]) => [normal.join(","), key]),
+);
 const FACE_COLORS = {
-  left: COLORS.BLUE, right: COLORS.GREEN,
-  bottom: COLORS.ORANGE, top: COLORS.RED,
-  back: COLORS.YELLOW, front: COLORS.WHITE,
+  left: COLORS.BLUE,
+  right: COLORS.GREEN,
+  bottom: COLORS.ORANGE,
+  top: COLORS.RED,
+  back: COLORS.YELLOW,
+  front: COLORS.WHITE,
 };
 
 export function createSolvedCube() {
@@ -39,9 +47,12 @@ function rotateVector([x, y, z], axis, quarter) {
 }
 
 const MOVE = {
-  R: [0, 1, -1], L: [0, -1, 1],
-  U: [1, 1, -1], D: [1, -1, 1],
-  F: [2, 1, -1], B: [2, -1, 1],
+  R: [0, 1, -1],
+  L: [0, -1, 1],
+  U: [1, 1, -1],
+  D: [1, -1, 1],
+  F: [2, 1, -1],
+  B: [2, -1, 1],
 };
 
 const BACKEND_FACE = {
@@ -52,19 +63,38 @@ const BACKEND_FACE = {
   bottom: { face: 4, cell: ([x, , z]) => [1 - z, x + 1] },
   back: { face: 5, cell: ([x, y]) => [1 - y, 1 - x] },
 };
-const COLOR_ID = Object.fromEntries(Object.entries(FACE_COLORS).map(([face, color]) => [color.toLowerCase(), {
-  left: 2, right: 3, bottom: 4, top: 1, back: 5, front: 0,
-}[face]]));
+const COLOR_ID = Object.fromEntries(
+  Object.entries(FACE_COLORS).map(([face, color]) => [
+    color.toLowerCase(),
+    {
+      left: 2,
+      right: 3,
+      bottom: 4,
+      top: 1,
+      back: 5,
+      front: 0,
+    }[face],
+  ]),
+);
 
 export function serializeCubeState(cubies) {
-  const faces = Array.from({ length: 6 }, () => Array.from({ length: 3 }, () => Array(3).fill(-1)));
+  const faces = Array.from({ length: 6 }, () =>
+    Array.from({ length: 3 }, () => Array(3).fill(-1)),
+  );
   for (const cubie of cubies) {
     for (const [side, color] of Object.entries(cubie.stickers)) {
       const mapping = BACKEND_FACE[side];
       const colorId = COLOR_ID[color.toLowerCase()];
-      if (!mapping || colorId === undefined) throw new Error("Cube contains an unsupported sticker color or face.");
+      if (!mapping || colorId === undefined)
+        throw new Error("Cube contains an unsupported sticker color or face.");
       const [row, col] = mapping.cell(cubie.position);
-      if (row < 0 || row > 2 || col < 0 || col > 2 || faces[mapping.face][row][col] !== -1)
+      if (
+        row < 0 ||
+        row > 2 ||
+        col < 0 ||
+        col > 2 ||
+        faces[mapping.face][row][col] !== -1
+      )
         throw new Error("Cube sticker positions are inconsistent.");
       faces[mapping.face][row][col] = colorId;
     }
@@ -79,7 +109,7 @@ export function getMoveAnimation(token) {
   if (axis === undefined) throw new Error(`Invalid move notation: ${token}`);
   const turns = token.endsWith("2") ? 2 : 1;
   const direction = token.endsWith("'") ? -clockwise : clockwise;
-  return { axis, layer, angle: direction * turns * Math.PI / 2 };
+  return { axis, layer, angle: (direction * turns * Math.PI) / 2 };
 }
 
 export function tokenizeMoves(sequence) {
