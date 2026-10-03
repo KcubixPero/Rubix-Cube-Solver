@@ -44,6 +44,36 @@ const MOVE = {
   F: [2, 1, -1], B: [2, -1, 1],
 };
 
+const BACKEND_FACE = {
+  front: { face: 0, cell: ([x, y]) => [1 - y, x + 1] },
+  top: { face: 1, cell: ([x, , z]) => [z + 1, x + 1] },
+  left: { face: 2, cell: ([, y, z]) => [1 - y, z + 1] },
+  right: { face: 3, cell: ([, y, z]) => [1 - y, 1 - z] },
+  bottom: { face: 4, cell: ([x, , z]) => [1 - z, x + 1] },
+  back: { face: 5, cell: ([x, y]) => [1 - y, 1 - x] },
+};
+const COLOR_ID = Object.fromEntries(Object.entries(FACE_COLORS).map(([face, color]) => [color.toLowerCase(), {
+  left: 2, right: 3, bottom: 4, top: 1, back: 5, front: 0,
+}[face]]));
+
+export function serializeCubeState(cubies) {
+  const faces = Array.from({ length: 6 }, () => Array.from({ length: 3 }, () => Array(3).fill(-1)));
+  for (const cubie of cubies) {
+    for (const [side, color] of Object.entries(cubie.stickers)) {
+      const mapping = BACKEND_FACE[side];
+      const colorId = COLOR_ID[color.toLowerCase()];
+      if (!mapping || colorId === undefined) throw new Error("Cube contains an unsupported sticker color or face.");
+      const [row, col] = mapping.cell(cubie.position);
+      if (row < 0 || row > 2 || col < 0 || col > 2 || faces[mapping.face][row][col] !== -1)
+        throw new Error("Cube sticker positions are inconsistent.");
+      faces[mapping.face][row][col] = colorId;
+    }
+  }
+  if (faces.some((face) => face.some((row) => row.some((color) => color < 0))))
+    throw new Error("Cube state is incomplete.");
+  return faces;
+}
+
 export function getMoveAnimation(token) {
   const [axis, layer, clockwise] = MOVE[token[0]] || [];
   if (axis === undefined) throw new Error(`Invalid move notation: ${token}`);

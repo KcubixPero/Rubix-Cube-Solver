@@ -3,13 +3,14 @@
 #include "Color.h"
 #include "F2LSolver.h"
 #include "LegacyStageSupport.h"
+#include "MoveSimplifier.h"
 
 #include <stdexcept>
 
 std::vector<std::string> OLLSolver::solve(RubixCube& cube) {
     if (!F2LSolver::isSolved(cube))
         throw std::invalid_argument("OLL requires Cross and F2L to be solved first.");
-    return LegacyStageSupport::solveOLL(cube);
+    return MoveSimplifier::simplifyAdjacentFaces(LegacyStageSupport::solveOLL(cube));
 }
 
 bool OLLSolver::isSolved(const RubixCube& cube) {

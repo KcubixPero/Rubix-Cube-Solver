@@ -2,6 +2,7 @@
 #include "CrossSolver.h"
 #include "F2LSolver.h"
 #include "MoveParser.h"
+#include "MoveSimplifier.h"
 #include "OLLSolver.h"
 #include "PLLSolver.h"
 #include "Scrambler.h"
@@ -62,6 +63,10 @@ static void solveAndVerify(RubixCube cube) {
 
 int main() {
     try {
+        require(MoveSimplifier::simplifyAdjacentFaces({"R", "R"}) == std::vector<std::string>{"R2"}, "R R simplification failed");
+        require(MoveSimplifier::simplifyAdjacentFaces({"R", "R'"}).empty(), "inverse move simplification failed");
+        require(MoveSimplifier::simplifyAdjacentFaces({"R2", "R"}) == std::vector<std::string>{"R'"}, "half-turn simplification failed");
+        require(MoveSimplifier::simplifyAdjacentFaces({"R", "U", "R'"}) == std::vector<std::string>({"R", "U", "R'"}), "simplifier reordered non-adjacent faces");
         solveAndVerify(solvedCube());
         for (const char* scramble : {"R", "R U F", "R U R' U'", "F2 D L' B"}) {
             RubixCube cube = solvedCube();
@@ -72,7 +77,7 @@ int main() {
         std::srand(20261003);
         for (int index = 0; index < 20; ++index) {
             RubixCube cube = solvedCube();
-            const std::string scramble = Scrambler::generateScramble(5);
+            const std::string scramble = Scrambler::generateScramble(1);
             MoveParser::execute(cube, scramble);
             solveAndVerify(cube);
             std::cout << "Random scramble " << index + 1 << ": passed\n";

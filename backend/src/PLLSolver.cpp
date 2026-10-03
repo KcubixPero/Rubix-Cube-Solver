@@ -1,6 +1,7 @@
 #include "PLLSolver.h"
 
 #include "LegacyStageSupport.h"
+#include "MoveSimplifier.h"
 #include "OLLSolver.h"
 
 #include <stdexcept>
@@ -8,7 +9,7 @@
 std::vector<std::string> PLLSolver::solve(RubixCube& cube) {
     if (!OLLSolver::isSolved(cube))
         throw std::invalid_argument("PLL requires Cross, F2L, and OLL to be solved first.");
-    return LegacyStageSupport::solvePLL(cube);
+    return MoveSimplifier::simplifyAdjacentFaces(LegacyStageSupport::solvePLL(cube));
 }
 
 bool PLLSolver::isSolved(const RubixCube& cube) {

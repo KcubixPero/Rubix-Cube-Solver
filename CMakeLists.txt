@@ -15,8 +15,13 @@ add_library(rubixcube_core
     backend/src/OLLSolver.cpp
     backend/src/PLLSolver.cpp
     backend/src/LegacyStageSupport.cpp
+    backend/src/MoveSimplifier.cpp
+    backend/src/HttpApi.cpp
 )
 target_include_directories(rubixcube_core PUBLIC backend/include)
+if(WIN32)
+    target_link_libraries(rubixcube_core PUBLIC ws2_32)
+endif()
 
 add_executable(rubix_cube_solver backend/src/main.cpp)
 target_link_libraries(rubix_cube_solver PRIVATE rubixcube_core)

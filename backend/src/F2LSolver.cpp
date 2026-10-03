@@ -3,6 +3,7 @@
 #include "CrossSolver.h"
 #include "Color.h"
 #include "LegacyStageSupport.h"
+#include "MoveSimplifier.h"
 
 #include <stdexcept>
 
@@ -47,7 +48,7 @@ std::vector<std::string> F2LSolver::solve(RubixCube& cube) {
     if (!CrossSolver::isSolved(cube)) {
         throw std::invalid_argument("F2L requires the existing CrossSolver to solve the white cross first.");
     }
-    return LegacyStageSupport::solveF2L(cube);
+    return MoveSimplifier::simplifyAdjacentFaces(LegacyStageSupport::solveF2L(cube));
 }
 
 bool F2LSolver::isSolved(const RubixCube& cube) {
