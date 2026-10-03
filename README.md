@@ -19,9 +19,7 @@ The goal of this project is not only to simulate a Rubik's Cube but also to prov
 
 ### Solver
 
-* CFOP Solver *(Planned)*
-* Kociemba Two-Phase Solver *(Planned)*
-* Solution generation from any valid cube state
+* CFOP Solver 
 
 ### Web Application
 
@@ -29,10 +27,8 @@ The goal of this project is not only to simulate a Rubik's Cube but also to prov
 * Smooth move animations
 * Rotate and inspect the cube
 * Manual move controls
-* Keyboard shortcuts
 * Random scramble generation
 * One-click solve
-* Move history
 * Undo / Redo
 * Responsive design
 
@@ -115,22 +111,18 @@ BLUE   WHITE   GREEN   YELLOW
 
 ### Phase 2 — Solver
 
-* [ ] CFOP Solver
-* [ ] Kociemba Solver
+* [] CFOP Solver
 
 ### Phase 3 — Web Visualizer
 
-* [ ] Interactive 3D Cube
-* [ ] Cube animations
-* [ ] Move controls
-* [ ] Move history
-* [ ] Timer
-* [ ] Keyboard shortcuts
+* [✅] Interactive 3D Cube
+* [✅] Cube animations
+* [✅] Move controls
 
 ### Phase 4 — Polish
 
-* [ ] Dark mode
-* [ ] Performance optimizations
+* [✅] Dark mode
+* [✅] Performance optimizations
 * [ ] Deployment
 
 ---
@@ -163,16 +155,3 @@ Contributions, suggestions, and feature requests are welcome. Feel free to fork 
 ---
 
 ---
-
-## ⭐ Future Enhancements
-
-* Multiple cube sizes (2×2, 4×4, 5×5)
-* Custom cube color themes
-* Save and load cube states
-* Import/export scramble notation
-* Speedcubing timer with statistics
-* AI-assisted solving strategies
-* Algorithm visualizer
-* Pattern generator (Checkerboard, Superflip, etc.)
-* Move notation parser
-* Multiplayer solving challenges

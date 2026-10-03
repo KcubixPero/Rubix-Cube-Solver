@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-class F2LSolver {
+class PLLSolver {
 public:
     static std::vector<std::string> solve(RubixCube& cube);
     static bool isSolved(const RubixCube& cube);
